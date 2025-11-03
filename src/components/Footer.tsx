@@ -1,6 +1,17 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Instagram,
+  Twitter,
+  Youtube,
+} from "lucide-react";
+import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
 
 const Footer = () => {
+  const { language } = useTours();
   return (
     <footer className="bg-secondary/50 border-t border-border mt-20">
       <div className="container mx-auto px-4 py-12">
@@ -9,47 +20,64 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-ocean-gradient rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">AT</span>
+                <span className="text-white font-bold text-xl">JG</span>
               </div>
               <span className="text-xl font-bold bg-ocean-gradient bg-clip-text text-transparent">
-                Asian Tours
+                Joigo
               </span>
             </div>
             <p className="text-muted-foreground mb-4">
-              Your gateway to unforgettable adventures across Asia. Discover the beauty, culture, and wonders of Southeast Asia with expert-guided tours.
+              Your gateway to unforgettable adventures across Vietnam. Discover
+              the beauty, culture, and wonders of Vietnam with expert-guided
+              tours.
             </p>
           </div>
 
           {/* Contact Information */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
+            <h3 className="font-semibold text-lg mb-4">
+              {t(language, "ft_contact_us")}
+            </h3>
             <div className="space-y-3">
               <a
-                href="mailto:info@asiantours.com"
+                href="mailto:info@joigo.com"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="w-5 h-5 text-primary" />
-                <span>info@asiantours.com</span>
+                <span>info@joigo.com</span>
               </a>
               <a
-                href="tel:+84123456789"
+                href="tel:+84971769862"
                 className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
               >
                 <Phone className="w-5 h-5 text-primary" />
-                <span>+84 123 456 789</span>
+                <span>+84 971 769 862</span>
               </a>
               <div className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary mt-1" />
-                <span>123 Travel Street, District 1<br />Ho Chi Minh City, Vietnam</span>
+                <span>
+                  Thach Hoa, Thach That, Ha Noi, Vietnam
+                  <br />
+                </span>
               </div>
             </div>
           </div>
 
           {/* Map Placeholder */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Find Us</h3>
-            <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center border border-border">
-              <MapPin className="w-12 h-12 text-muted-foreground" />
+            <h3 className="font-semibold text-lg mb-4">
+              {t(language, "ft_find_us")}
+            </h3>
+            <div className="w-full h-48 rounded-lg overflow-hidden border border-border">
+              <iframe
+                src="https://www.google.com/maps?q=Thach+Hoa,+Thach+That,+Ha+Noi,+Vietnam&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </div>
@@ -59,7 +87,9 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             {/* Payment Methods */}
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">We accept:</span>
+              <span className="text-sm text-muted-foreground">
+                {t(language, "ft_we_accept")}
+              </span>
               <div className="flex items-center gap-3">
                 <div className="px-4 py-2 bg-background border border-border rounded-md">
                   <span className="text-sm font-semibold">VISA</span>
@@ -72,7 +102,9 @@ const Footer = () => {
 
             {/* Social Media Links */}
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">Follow us:</span>
+              <span className="text-sm text-muted-foreground">
+                {t(language, "ft_follow_us")}
+              </span>
               <div className="flex gap-3">
                 <a
                   href="https://facebook.com"
@@ -114,7 +146,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="text-center mt-8 pt-8 border-t border-border">
           <p className="text-sm text-muted-foreground">
-            © 2024 Asian Tours. All rights reserved.
+            © 2025 Joigo. {t(language, "ft_copyright")}
           </p>
         </div>
       </div>

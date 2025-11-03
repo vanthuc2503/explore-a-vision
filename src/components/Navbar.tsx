@@ -4,15 +4,25 @@ import { Search, Globe, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [localSearch, setLocalSearch] = useState("");
-  const { currency, setCurrency, setSearchQuery } = useTours();
+  const { currency, setCurrency, setSearchQuery, language, setLanguage } =
+    useTours();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  const popularSearches = ["Ha Long Bay", "Sapa", "Hoi An", "Phuket", "Angkor Wat"];
+  const popularSearches = [
+    "Van Mieu - Quoc Tu Giam",
+    "Ho Chi Minh Museum",
+    "National Military Museum",
+    "Hoa Lo Prison",
+  ];
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -22,8 +32,10 @@ const Navbar = () => {
   };
 
   const handleLanguageToggle = () => {
-    const newCurrency = currency === "USD" ? "VND" : "USD";
-    setCurrency(newCurrency);
+    const newLanguage = language === "EN" ? "VI" : "EN";
+    setLanguage(newLanguage);
+    // Optional: sync currency with language for user convenience
+    setCurrency(newLanguage === "VI" ? "VND" : "USD");
   };
 
   return (
@@ -33,19 +45,29 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 bg-ocean-gradient rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-              <span className="text-white font-bold text-xl">AT</span>
+              <span className="text-white font-bold text-xl">JG</span>
             </div>
             <span className="text-xl font-bold bg-ocean-gradient bg-clip-text text-transparent hidden sm:block">
-              Asian Tours
+              Joigo
             </span>
           </Link>
+
+          {/* Middle Links - Desktop */}
+          <div className="hidden md:flex items-center gap-6 mx-6">
+            <Link
+              to="/blogs"
+              className="text-sm text-foreground/80 hover:text-primary transition-colors"
+            >
+              Travel Blog
+            </Link>
+          </div>
 
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8 relative">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
-                placeholder="Search destinations, tours..."
+                placeholder={t(language, "nav_search_placeholder")}
                 className="pl-10 pr-4 h-11 rounded-lg border-border focus:ring-2 focus:ring-primary"
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
@@ -59,7 +81,9 @@ const Navbar = () => {
               />
               {isSearchOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-hover p-4 animate-fade-in">
-                  <p className="text-xs text-muted-foreground mb-2">Popular Searches</p>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    {t(language, "nav_popular_searches")}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {popularSearches.map((search) => (
                       <button
@@ -84,17 +108,45 @@ const Navbar = () => {
               className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-colors"
             >
               <Globe className="w-4 h-4" />
-              <span className="text-sm font-medium">{currency === "USD" ? "EN" : "VI"}</span>
+              <span className="text-sm font-medium">{language}</span>
             </button>
 
-            {/* Auth Buttons - Desktop */}
-            <div className="hidden md:flex items-center gap-2">
-              <Button variant="ghost" size="sm">
-                Log In
-              </Button>
-              <Button variant="default" size="sm">
-                Sign Up
-              </Button>
+            {/* Auth Area - Desktop */}
+            <div className="hidden md:flex items-center gap-3">
+              {user ? (
+                <>
+                  <button
+                    onClick={() => navigate("/profile")}
+                    className="flex items-center gap-2 group"
+                  >
+                    <Avatar className="w-8 h-8 ring-1 ring-border">
+                      <AvatarImage src={user.avatarUrl} alt={user.name} />
+                      <AvatarFallback>
+                        {user.name?.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                      {user.name}
+                    </span>
+                  </button>
+                  <Button variant="outline" size="sm" onClick={logout}>
+                    Log out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="ghost" size="sm">
+                      {t(language, "nav_login")}
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button variant="default" size="sm">
+                      {t(language, "nav_signup")}
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -102,7 +154,11 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -111,20 +167,51 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border pt-4 animate-slide-in">
             <div className="flex flex-col gap-3">
+              <Link
+                to="/blogs"
+                className="px-3 py-2 rounded-lg hover:bg-secondary transition-colors w-max"
+              >
+                Travel Blog
+              </Link>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
-                  placeholder="Search destinations..."
+                  placeholder={t(language, "nav_search_mobile_placeholder")}
                   className="h-11 pl-10"
                 />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1">
-                  Log In
-                </Button>
-                <Button variant="default" className="flex-1">
-                  Sign Up
-                </Button>
+                {user ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => navigate("/profile")}
+                    >
+                      Hồ sơ
+                    </Button>
+                    <Button
+                      variant="default"
+                      className="flex-1"
+                      onClick={logout}
+                    >
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="flex-1">
+                      <Button variant="outline" className="w-full">
+                        {t(language, "nav_login")}
+                      </Button>
+                    </Link>
+                    <Link to="/signup" className="flex-1">
+                      <Button variant="default" className="w-full">
+                        {t(language, "nav_signup")}
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

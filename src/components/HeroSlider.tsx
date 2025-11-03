@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import halongBay from "@/assets/halong-bay.jpg";
-import angkorWat from "@/assets/angkor-wat.jpg";
-import thailandBeach from "@/assets/thailand-beach.jpg";
+import vanMieu from "@/assets/van-mieu.jpg";
+import hoChiMinhMuseum from "@/assets/hoang-thanh-thang-long.jpg";
+import nationalMilitiaMuseum from "@/assets/hochiminh-museum.jpeg";
 
 const slides = [
   {
-    image: halongBay,
-    title: "Ha Long Bay",
-    subtitle: "Discover the emerald waters and limestone karsts of Vietnam",
+    image: vanMieu,
+    title: "Van Mieu - Quoc Tu Giam",
+    subtitle: "Discover the ancient temples and history of Vietnam",
   },
   {
-    image: angkorWat,
-    title: "Angkor Wat",
-    subtitle: "Explore the ancient temples of Cambodia",
+    image: hoChiMinhMuseum,
+    title: "Hoang Thanh Thang Long",
+    subtitle: "Explore the ancient temples and history of Vietnam",
   },
   {
-    image: thailandBeach,
-    title: "Paradise Beaches",
-    subtitle: "Relax on Thailand's pristine tropical shores",
+    image: nationalMilitiaMuseum,
+    title: "National Military Museum",
+    subtitle: "Explore the history and culture of Vietnam",
   },
 ];
 

@@ -1,7 +1,13 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import tourHoian from "@/assets/tour-hoian.jpg";
-import tourSapa from "@/assets/tour-sapa.jpg";
-import tourPhuket from "@/assets/tour-phuket.jpg";
+import onepillarPagoda from "@/assets/one-pillar-pagoda.jpg";
+import hoangThanhThangLong from "@/assets/hoang-thanh-thang-long.jpg";
+import chuaThay from "@/assets/chua-thay.jpg";
+import chuaTranQuoc from "@/assets/chua-tran-quoc.jpg";
+import hoHoanKiem from "@/assets/ho-hoan-kiem.jpg";
+import nhaSanBacHo from "@/assets/nha-san-bac-ho.jpg";
+import thanhCoLoa from "@/assets/thanh-co-loa.jpg";
+import nhaTuHoaLo from "@/assets/nha-tu-hoa-lo.jpg";
+import vanMieu from "@/assets/van-mieu.jpg";
 
 export interface Tour {
   id: string;
@@ -23,6 +29,8 @@ interface TourContextType {
   setSearchQuery: (query: string) => void;
   currency: "USD" | "VND";
   setCurrency: (currency: "USD" | "VND") => void;
+  language: "EN" | "VI";
+  setLanguage: (language: "EN" | "VI") => void;
   filters: {
     tourType: string;
     departure: string;
@@ -38,85 +46,85 @@ const TourContext = createContext<TourContextType | undefined>(undefined);
 const allTours: Tour[] = [
   {
     id: "1",
-    image: tourHoian,
-    title: "Hoi An Ancient Town & Lantern Festival Experience",
+    image: hoangThanhThangLong,
+    title: "Hoang Thanh Thang Long experience",
     rating: 4.8,
     reviews: 342,
     price: 89,
     type: "cultural",
-    departure: "danang",
-    destination: "vietnam",
-    transportation: "bus",
-    description: "Explore the charming ancient town and magical lantern festival",
-  },
-  {
-    id: "2",
-    image: tourSapa,
-    title: "Sapa Rice Terraces & Ethnic Villages Trek",
-    rating: 4.9,
-    reviews: 267,
-    price: 125,
-    type: "adventure",
     departure: "hanoi",
     destination: "vietnam",
     transportation: "bus",
-    description: "Trek through stunning rice terraces and visit local villages",
+    description: "Explore the charming ancient town and history",
+  },
+  {
+    id: "2",
+    image: onepillarPagoda,
+    title: "One Pillar Pagoda experience",
+    rating: 4.9,
+    reviews: 267,
+    price: 125,
+    type: "cultural",
+    departure: "hanoi",
+    destination: "vietnam",
+    transportation: "bus",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "3",
-    image: tourPhuket,
-    title: "Phuket Island Hopping & Beach Paradise",
+    image: chuaThay,
+    title: "Chua Thay experience",
     rating: 4.7,
     reviews: 521,
     price: 95,
-    type: "beach",
-    departure: "phuket",
-    destination: "thailand",
-    transportation: "boat",
-    description: "Discover pristine beaches and crystal clear waters",
+    type: "cultural",
+    departure: "hanoi",
+    destination: "vietnam",
+    transportation: "bus",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "4",
-    image: tourHoian,
-    title: "Da Nang City Tour & Marble Mountains",
+    image: chuaTranQuoc,
+    title: "Chua Tran Quoc experience",
     rating: 4.6,
     reviews: 198,
     price: 75,
     type: "cultural",
-    departure: "danang",
+    departure: "hanoi",
     destination: "vietnam",
     transportation: "bus",
-    description: "Explore modern city and ancient marble caves",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "5",
-    image: tourSapa,
-    title: "Ha Giang Loop Mountain Adventure",
+    image: hoHoanKiem,
+    title: "Ho Hoan Kiem experience",
     rating: 4.9,
     reviews: 156,
     price: 145,
-    type: "adventure",
+    type: "cultural",
     departure: "hanoi",
     destination: "vietnam",
     transportation: "motorbike",
-    description: "Epic mountain roads and breathtaking scenery",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "6",
-    image: tourPhuket,
-    title: "Bangkok Grand Palace & Floating Markets",
+    image: thanhCoLoa,
+    title: "Thanh Co Loa experience",
     rating: 4.5,
     reviews: 423,
     price: 65,
     type: "cultural",
-    departure: "bangkok",
-    destination: "thailand",
+    departure: "hanoi",
+    destination: "vietnam",
     transportation: "bus",
-    description: "Historic temples and vibrant floating markets",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "7",
-    image: tourHoian,
+    image: nhaTuHoaLo,
     title: "Angkor Wat Temple Complex Discovery",
     rating: 5.0,
     reviews: 678,
@@ -129,35 +137,36 @@ const allTours: Tour[] = [
   },
   {
     id: "8",
-    image: tourPhuket,
-    title: "Krabi Phi Phi Islands Adventure",
+    image: vanMieu,
+    title: "Van Mieu - Quoc Tu Giam experience",
     rating: 4.8,
     reviews: 392,
     price: 105,
-    type: "beach",
-    departure: "krabi",
-    destination: "thailand",
-    transportation: "boat",
-    description: "Paradise islands and stunning limestone cliffs",
+    type: "cultural",
+    departure: "hanoi",
+    destination: "vietnam",
+    transportation: "bus",
+    description: "Explore the charming ancient temple and history",
   },
   {
     id: "9",
-    image: tourSapa,
-    title: "Bagan Temples Hot Air Balloon Sunrise",
+    image: nhaSanBacHo,
+    title: "Nha San Bac Ho experience",
     rating: 4.9,
     reviews: 234,
     price: 180,
-    type: "adventure",
-    departure: "yangon",
-    destination: "myanmar",
-    transportation: "flight",
-    description: "Magical sunrise over thousands of ancient temples",
+    type: "cultural",
+    departure: "hanoi",
+    destination: "vietnam",
+    transportation: "bus",
+    description: "Explore the charming ancient temple and history",
   },
 ];
 
 export const TourProvider = ({ children }: { children: ReactNode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currency, setCurrency] = useState<"USD" | "VND">("USD");
+  const [language, setLanguage] = useState<"EN" | "VI">("EN");
   const [filters, setFilters] = useState({
     tourType: "all",
     departure: "all",
@@ -199,6 +208,8 @@ export const TourProvider = ({ children }: { children: ReactNode }) => {
         setSearchQuery,
         currency,
         setCurrency,
+        language,
+        setLanguage,
         filters,
         setFilters,
         filteredTours,
