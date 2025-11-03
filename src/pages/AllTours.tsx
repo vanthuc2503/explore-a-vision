@@ -1,62 +1,21 @@
-import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TourCard from "@/components/TourCard";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import tourHoian from "@/assets/tour-hoian.jpg";
-import tourSapa from "@/assets/tour-sapa.jpg";
-import tourPhuket from "@/assets/tour-phuket.jpg";
+import { useTours } from "@/contexts/TourContext";
 
 const AllTours = () => {
-  const [tourType, setTourType] = useState("all");
-  const [departure, setDeparture] = useState("all");
+  const { filteredTours, filters, setFilters, searchQuery } = useTours();
 
-  const allTours = [
-    {
-      image: tourHoian,
-      title: "Hoi An Ancient Town & Lantern Festival Experience",
-      rating: 4.8,
-      reviews: 342,
-      price: 89,
-    },
-    {
-      image: tourSapa,
-      title: "Sapa Rice Terraces & Ethnic Villages Trek",
-      rating: 4.9,
-      reviews: 267,
-      price: 125,
-    },
-    {
-      image: tourPhuket,
-      title: "Phuket Island Hopping & Beach Paradise",
-      rating: 4.7,
-      reviews: 521,
-      price: 95,
-    },
-    {
-      image: tourHoian,
-      title: "Da Nang City Tour & Marble Mountains",
-      rating: 4.6,
-      reviews: 198,
-      price: 75,
-    },
-    {
-      image: tourSapa,
-      title: "Ha Giang Loop Mountain Adventure",
-      rating: 4.9,
-      reviews: 156,
-      price: 145,
-    },
-    {
-      image: tourPhuket,
-      title: "Bangkok Grand Palace & Floating Markets",
-      rating: 4.5,
-      reviews: 423,
-      price: 65,
-    },
-  ];
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters({
+      ...filters,
+      [key]: value,
+    });
+  };
 
   const reviews = [
     {
@@ -80,10 +39,19 @@ const AllTours = () => {
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-          <a href="/" className="hover:text-primary transition-colors">Home</a>
+          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-foreground font-medium">All Tours</span>
         </div>
+
+        {/* Search Query Display */}
+        {searchQuery && (
+          <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+            <p className="text-sm">
+              Search results for: <span className="font-semibold text-primary">"{searchQuery}"</span>
+            </p>
+          </div>
+        )}
 
         {/* Filters */}
         <section className="mb-12">
@@ -92,7 +60,7 @@ const AllTours = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">Tour Type</label>
-                <Select value={tourType} onValueChange={setTourType}>
+                <Select value={filters.tourType} onValueChange={(value) => handleFilterChange("tourType", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="All types" />
                   </SelectTrigger>
@@ -106,21 +74,23 @@ const AllTours = () => {
               </div>
               <div>
                 <label className="text-sm font-medium mb-2 block">Departure Point</label>
-                <Select value={departure} onValueChange={setDeparture}>
+                <Select value={filters.departure} onValueChange={(value) => handleFilterChange("departure", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="All cities" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All cities</SelectItem>
                     <SelectItem value="hanoi">Hanoi</SelectItem>
-                    <SelectItem value="saigon">Ho Chi Minh</SelectItem>
+                    <SelectItem value="danang">Da Nang</SelectItem>
                     <SelectItem value="bangkok">Bangkok</SelectItem>
+                    <SelectItem value="phuket">Phuket</SelectItem>
+                    <SelectItem value="siemreap">Siem Reap</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <label className="text-sm font-medium mb-2 block">Destination</label>
-                <Select>
+                <Select value={filters.destination} onValueChange={(value) => handleFilterChange("destination", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Any destination" />
                   </SelectTrigger>
@@ -129,12 +99,13 @@ const AllTours = () => {
                     <SelectItem value="vietnam">Vietnam</SelectItem>
                     <SelectItem value="thailand">Thailand</SelectItem>
                     <SelectItem value="cambodia">Cambodia</SelectItem>
+                    <SelectItem value="myanmar">Myanmar</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <label className="text-sm font-medium mb-2 block">Transportation</label>
-                <Select>
+                <Select value={filters.transportation} onValueChange={(value) => handleFilterChange("transportation", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="All types" />
                   </SelectTrigger>
@@ -143,6 +114,8 @@ const AllTours = () => {
                     <SelectItem value="bus">Bus</SelectItem>
                     <SelectItem value="flight">Flight</SelectItem>
                     <SelectItem value="boat">Boat</SelectItem>
+                    <SelectItem value="tuk-tuk">Tuk-tuk</SelectItem>
+                    <SelectItem value="motorbike">Motorbike</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -152,12 +125,26 @@ const AllTours = () => {
 
         {/* Tour Grid */}
         <section className="mb-16">
-          <h1 className="text-3xl font-bold mb-8">All Tours</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {allTours.map((tour, index) => (
-              <TourCard key={index} {...tour} />
-            ))}
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-bold">
+              {searchQuery ? `Tours for "${searchQuery}"` : "All Tours"}
+            </h1>
+            <p className="text-muted-foreground">
+              {filteredTours.length} {filteredTours.length === 1 ? "tour" : "tours"} found
+            </p>
           </div>
+          {filteredTours.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTours.map((tour) => (
+                <TourCard key={tour.id} {...tour} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-xl text-muted-foreground mb-4">No tours found matching your criteria</p>
+              <p className="text-sm text-muted-foreground">Try adjusting your filters or search query</p>
+            </div>
+          )}
         </section>
 
         {/* Customer Reviews */}

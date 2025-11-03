@@ -1,13 +1,33 @@
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
+import { useTours } from "@/contexts/TourContext";
 
 interface LandmarkCardProps {
   image: string;
   name: string;
+  destination: string;
 }
 
-const LandmarkCard = ({ image, name }: LandmarkCardProps) => {
+const LandmarkCard = ({ image, name, destination }: LandmarkCardProps) => {
+  const navigate = useNavigate();
+  const { setFilters, setSearchQuery } = useTours();
+
+  const handleClick = () => {
+    setSearchQuery("");
+    setFilters({
+      tourType: "all",
+      departure: "all",
+      destination: destination,
+      transportation: "all",
+    });
+    navigate("/tours");
+  };
+
   return (
-    <Card className="group overflow-hidden border-border hover:shadow-hover transition-all duration-300 cursor-pointer hover:-translate-y-2">
+    <Card 
+      onClick={handleClick}
+      className="group overflow-hidden border-border hover:shadow-hover transition-all duration-300 cursor-pointer hover:-translate-y-2"
+    >
       <div className="relative h-64 overflow-hidden">
         <img
           src={image}

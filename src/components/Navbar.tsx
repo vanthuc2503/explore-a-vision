@@ -1,15 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Globe, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTours } from "@/contexts/TourContext";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<"en" | "vi">("en");
+  const [localSearch, setLocalSearch] = useState("");
+  const { currency, setCurrency, setSearchQuery } = useTours();
+  const navigate = useNavigate();
 
   const popularSearches = ["Ha Long Bay", "Sapa", "Hoi An", "Phuket", "Angkor Wat"];
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setLocalSearch("");
+    setIsSearchOpen(false);
+    navigate("/tours");
+  };
+
+  const handleLanguageToggle = () => {
+    const newCurrency = currency === "USD" ? "VND" : "USD";
+    setCurrency(newCurrency);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
@@ -32,8 +47,15 @@ const Navbar = () => {
               <Input
                 placeholder="Search destinations, tours..."
                 className="pl-10 pr-4 h-11 rounded-lg border-border focus:ring-2 focus:ring-primary"
+                value={localSearch}
+                onChange={(e) => setLocalSearch(e.target.value)}
                 onFocus={() => setIsSearchOpen(true)}
                 onBlur={() => setTimeout(() => setIsSearchOpen(false), 200)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && localSearch.trim()) {
+                    handleSearch(localSearch);
+                  }
+                }}
               />
               {isSearchOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-hover p-4 animate-fade-in">
@@ -42,6 +64,7 @@ const Navbar = () => {
                     {popularSearches.map((search) => (
                       <button
                         key={search}
+                        onClick={() => handleSearch(search)}
                         className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-md text-sm hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {search}
@@ -57,11 +80,11 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {/* Language Switcher */}
             <button
-              onClick={() => setLanguage(language === "en" ? "vi" : "en")}
+              onClick={handleLanguageToggle}
               className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-colors"
             >
               <Globe className="w-4 h-4" />
-              <span className="text-sm font-medium">{language.toUpperCase()}</span>
+              <span className="text-sm font-medium">{currency === "USD" ? "EN" : "VI"}</span>
             </button>
 
             {/* Auth Buttons - Desktop */}

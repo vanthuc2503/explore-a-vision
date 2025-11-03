@@ -1,6 +1,7 @@
 import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useTours } from "@/contexts/TourContext";
 
 interface TourCardProps {
   image: string;
@@ -8,10 +9,10 @@ interface TourCardProps {
   rating: number;
   reviews: number;
   price: number;
-  currency?: "USD" | "VND";
 }
 
-const TourCard = ({ image, title, rating, reviews, price, currency = "USD" }: TourCardProps) => {
+const TourCard = ({ image, title, rating, reviews, price }: TourCardProps) => {
+  const { currency } = useTours();
   const formattedPrice = currency === "VND" 
     ? `${(price * 23000).toLocaleString()}₫` 
     : `$${price}`;

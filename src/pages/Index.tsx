@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSlider from "@/components/HeroSlider";
@@ -8,41 +9,28 @@ import LandmarkCard from "@/components/LandmarkCard";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import tourHoian from "@/assets/tour-hoian.jpg";
-import tourSapa from "@/assets/tour-sapa.jpg";
-import tourPhuket from "@/assets/tour-phuket.jpg";
+import { useTours } from "@/contexts/TourContext";
 import landmarkBagan from "@/assets/landmark-bagan.jpg";
 import landmarkPetronas from "@/assets/landmark-petronas.jpg";
 
 const Index = () => {
-  const featuredTours = [
-    {
-      image: tourHoian,
-      title: "Hoi An Ancient Town & Lantern Festival Experience",
-      rating: 4.8,
-      reviews: 342,
-      price: 89,
-    },
-    {
-      image: tourSapa,
-      title: "Sapa Rice Terraces & Ethnic Villages Trek",
-      rating: 4.9,
-      reviews: 267,
-      price: 125,
-    },
-    {
-      image: tourPhuket,
-      title: "Phuket Island Hopping & Beach Paradise",
-      rating: 4.7,
-      reviews: 521,
-      price: 95,
-    },
-  ];
+  const [heroSearch, setHeroSearch] = useState("");
+  const { tours, setSearchQuery } = useTours();
+  const navigate = useNavigate();
+
+  const featuredTours = tours.slice(0, 3);
 
   const landmarks = [
-    { image: landmarkBagan, name: "Bagan Temples, Myanmar" },
-    { image: landmarkPetronas, name: "Petronas Towers, Malaysia" },
+    { image: landmarkBagan, name: "Bagan Temples, Myanmar", destination: "myanmar" },
+    { image: landmarkPetronas, name: "Petronas Towers, Malaysia", destination: "malaysia" },
   ];
+
+  const handleHeroSearch = () => {
+    if (heroSearch.trim()) {
+      setSearchQuery(heroSearch);
+      navigate("/tours");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,8 +49,23 @@ const Index = () => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-6 h-6" />
               <Input
                 placeholder="Where do you want to go?"
-                className="h-16 pl-14 pr-4 text-lg rounded-xl border-2 border-border focus:border-primary shadow-soft"
+                className="h-16 pl-14 pr-32 text-lg rounded-xl border-2 border-border focus:border-primary shadow-soft"
+                value={heroSearch}
+                onChange={(e) => setHeroSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleHeroSearch();
+                  }
+                }}
               />
+              <Button
+                onClick={handleHeroSearch}
+                variant="hero"
+                size="lg"
+                className="absolute right-2 top-1/2 -translate-y-1/2"
+              >
+                Search
+              </Button>
             </div>
           </div>
         </section>
