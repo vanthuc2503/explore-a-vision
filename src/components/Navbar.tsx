@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Globe, Menu, X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTours } from "@/contexts/TourContext";
@@ -44,24 +44,17 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-ocean-gradient rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-              <span className="text-white font-bold text-xl">JG</span>
+            <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <img
+                src="/icon_joigo.svg"
+                alt="Joigo Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <span className="text-xl font-bold bg-ocean-gradient bg-clip-text text-transparent hidden sm:block">
               Joigo
             </span>
           </Link>
-
-          {/* Middle Links - Desktop */}
-          <div className="hidden md:flex items-center gap-6 mx-6">
-            <Link
-              to="/blogs"
-              className="text-sm text-foreground/80 hover:text-primary transition-colors"
-            >
-              Travel Blog
-            </Link>
-          </div>
-
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8 relative">
             <div className="relative w-full">
@@ -99,7 +92,6 @@ const Navbar = () => {
               )}
             </div>
           </div>
-
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
             {/* Language Switcher */}
@@ -107,7 +99,7 @@ const Navbar = () => {
               onClick={handleLanguageToggle}
               className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-secondary transition-colors"
             >
-              <Globe className="w-4 h-4" />
+              <span className="text-xl">{language === "EN" ? "🇺🇸" : "🇻🇳"}</span>
               <span className="text-sm font-medium">{language}</span>
             </button>
 
@@ -167,12 +159,6 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-border pt-4 animate-slide-in">
             <div className="flex flex-col gap-3">
-              <Link
-                to="/blogs"
-                className="px-3 py-2 rounded-lg hover:bg-secondary transition-colors w-max"
-              >
-                Travel Blog
-              </Link>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input

@@ -19,17 +19,17 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-ocean-gradient rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">JG</span>
-              </div>
+              <img
+                src="/icon_joigo.svg"
+                alt="Joigo Logo"
+                className="w-10 h-10"
+              />
               <span className="text-xl font-bold bg-ocean-gradient bg-clip-text text-transparent">
                 Joigo
               </span>
             </div>
             <p className="text-muted-foreground mb-4">
-              Your gateway to unforgettable adventures across Vietnam. Discover
-              the beauty, culture, and wonders of Vietnam with expert-guided
-              tours.
+              {t(language, "ft_company_desc")}
             </p>
           </div>
 
@@ -91,11 +91,13 @@ const Footer = () => {
                 {t(language, "ft_we_accept")}
               </span>
               <div className="flex items-center gap-3">
-                <div className="px-4 py-2 bg-background border border-border rounded-md">
-                  <span className="text-sm font-semibold">VISA</span>
+                <div className="px-4 py-2 bg-gradient-to-br from-[#1A1F71] to-[#1434CB] rounded-md shadow-sm">
+                  <span className="text-sm font-bold text-white">VISA</span>
                 </div>
-                <div className="px-4 py-2 bg-background border border-border rounded-md">
-                  <span className="text-sm font-semibold">Mastercard</span>
+                <div className="px-4 py-2 bg-gradient-to-br from-[#EB001B] to-[#F79E1B] rounded-md shadow-sm">
+                  <span className="text-sm font-bold text-white">
+                    Mastercard
+                  </span>
                 </div>
               </div>
             </div>
@@ -110,33 +112,33 @@ const Footer = () => {
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  className="w-10 h-10 bg-[#1877F2] rounded-lg flex items-center justify-center hover:bg-[#166FE5] hover:scale-110 transition-all shadow-sm"
                 >
-                  <Facebook className="w-5 h-5" />
+                  <Facebook className="w-5 h-5 text-white" />
                 </a>
                 <a
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  className="w-10 h-10 bg-gradient-to-br from-[#F56040] via-[#E1306C] to-[#C13584] rounded-lg flex items-center justify-center hover:scale-110 transition-all shadow-sm"
                 >
-                  <Instagram className="w-5 h-5" />
+                  <Instagram className="w-5 h-5 text-white" />
                 </a>
                 <a
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  className="w-10 h-10 bg-[#1DA1F2] rounded-lg flex items-center justify-center hover:bg-[#1A91DA] hover:scale-110 transition-all shadow-sm"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <Twitter className="w-5 h-5 text-white" />
                 </a>
                 <a
                   href="https://youtube.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+                  className="w-10 h-10 bg-[#FF0000] rounded-lg flex items-center justify-center hover:bg-[#E60000] hover:scale-110 transition-all shadow-sm"
                 >
-                  <Youtube className="w-5 h-5" />
+                  <Youtube className="w-5 h-5 text-white" />
                 </a>
               </div>
             </div>

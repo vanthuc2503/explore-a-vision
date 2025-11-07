@@ -1,16 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
 
 interface LandmarkCardProps {
   image: string;
   name: string;
+  nameKey?: string;
   destination: string;
 }
 
-const LandmarkCard = ({ image, name, destination }: LandmarkCardProps) => {
+const LandmarkCard = ({
+  image,
+  name,
+  nameKey,
+  destination,
+}: LandmarkCardProps) => {
   const navigate = useNavigate();
-  const { setFilters, setSearchQuery } = useTours();
+  const { setFilters, setSearchQuery, language } = useTours();
 
   const handleClick = () => {
     setSearchQuery("");
@@ -24,7 +31,7 @@ const LandmarkCard = ({ image, name, destination }: LandmarkCardProps) => {
   };
 
   return (
-    <Card 
+    <Card
       onClick={handleClick}
       className="group overflow-hidden border-border hover:shadow-hover transition-all duration-300 cursor-pointer hover:-translate-y-2"
     >
@@ -37,7 +44,7 @@ const LandmarkCard = ({ image, name, destination }: LandmarkCardProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <h3 className="text-white text-2xl font-bold group-hover:scale-105 transition-transform">
-            {name}
+            {nameKey ? t(language, nameKey as any) : name}
           </h3>
         </div>
       </div>

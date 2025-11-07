@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TourCard from "@/components/TourCard";
@@ -16,9 +17,38 @@ import {
 import { useTours } from "@/contexts/TourContext";
 import { t } from "@/lib/i18n";
 
+const offerInfo: Record<
+  string,
+  { title: string; description: string; filterFn: (tour: any) => boolean }
+> = {
+  "early-bird": {
+    title: "Early Bird Special",
+    description: "Book 30 days in advance and save up to 25%",
+    filterFn: (tour) => tour.type === "cultural" || tour.price < 100,
+  },
+  "weekend-getaway": {
+    title: "Weekend Getaway",
+    description: "Perfect weekend tours with special discounts",
+    filterFn: (tour) =>
+      tour.type === "cultural" || tour.destination === "vietnam",
+  },
+  "cultural-heritage": {
+    title: "Cultural Heritage",
+    description: "Explore ancient temples and historical sites",
+    filterFn: (tour) => tour.type === "cultural",
+  },
+};
+
 const AllTours = () => {
   const { filteredTours, filters, setFilters, searchQuery, language } =
     useTours();
+  const [searchParams] = useSearchParams();
+  const offerId = searchParams.get("offer");
+
+  const offerTours = useMemo(() => {
+    if (!offerId || !offerInfo[offerId]) return filteredTours;
+    return filteredTours.filter(offerInfo[offerId].filterFn);
+  }, [offerId, filteredTours]);
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters({
@@ -68,6 +98,23 @@ const AllTours = () => {
               <span className="font-semibold text-primary">
                 "{searchQuery}"
               </span>
+            </p>
+          </div>
+        )}
+
+        {/* Offer Display */}
+        {offerId && offerInfo[offerId] && (
+          <div className="mb-6 p-6 bg-gradient-to-r from-orange-500/10 to-orange-600/10 border-2 border-orange-500/30 rounded-lg">
+            <h2 className="text-2xl font-bold mb-2 text-orange-600">
+              {offerInfo[offerId].title}
+            </h2>
+            <p className="text-muted-foreground mb-2">
+              {offerInfo[offerId].description}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {offerTours.length}{" "}
+              {offerTours.length === 1 ? "tour available" : "tours available"}{" "}
+              with this offer
             </p>
           </div>
         )}
@@ -186,20 +233,22 @@ const AllTours = () => {
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold">
-              {searchQuery
+              {offerId && offerInfo[offerId]
+                ? offerInfo[offerId].title
+                : searchQuery
                 ? `${t(language, "all_tours_for")} "${searchQuery}"`
                 : t(language, "all_all_tours")}
             </h1>
             <p className="text-muted-foreground">
-              {filteredTours.length}{" "}
-              {filteredTours.length === 1
+              {offerTours.length}{" "}
+              {offerTours.length === 1
                 ? t(language, "all_found_singular")
                 : t(language, "all_found_plural")}
             </p>
           </div>
-          {filteredTours.length > 0 ? (
+          {offerTours.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTours.map((tour) => (
+              {offerTours.map((tour) => (
                 <TourCard key={tour.id} {...tour} />
               ))}
             </div>
@@ -252,13 +301,17 @@ const AllTours = () => {
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Travel Blog Hà Nội</h2>
+              <h2 className="text-3xl font-bold mb-2">
+                {t(language, "idx_travel_blog")}
+              </h2>
               <p className="text-muted-foreground">
-                Những câu chuyện ngắn về địa danh nổi tiếng.
+                {t(language, "idx_blog_desc")}
               </p>
             </div>
             <Link to="/blogs">
-              <Button variant="outline">Xem tất cả</Button>
+              <Button variant="outline">
+                {t(language, "idx_view_all_blog")}
+              </Button>
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -278,11 +331,19 @@ const AllTours = () => {
                     />
                   </div>
                   <CardHeader>
-                    <CardTitle className="text-xl">{blog.title}</CardTitle>
+                    <CardTitle className="text-xl">
+                      {t(
+                        language,
+                        `blog_${blog.slug.replace(/-/g, "_")}_title` as any
+                      ) || blog.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground line-clamp-3">
-                      {blog.excerpt}
+                      {t(
+                        language,
+                        `blog_${blog.slug.replace(/-/g, "_")}_excerpt` as any
+                      ) || blog.excerpt}
                     </p>
                   </CardContent>
                 </Card>

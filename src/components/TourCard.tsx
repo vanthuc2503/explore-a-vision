@@ -1,9 +1,11 @@
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
 
 interface TourCardProps {
+  id: string;
   image: string;
   title: string;
   rating: number;
@@ -11,14 +13,28 @@ interface TourCardProps {
   price: number;
 }
 
-const TourCard = ({ image, title, rating, reviews, price }: TourCardProps) => {
-  const { currency } = useTours();
-  const formattedPrice = currency === "VND" 
-    ? `${(price * 23000).toLocaleString()}₫` 
-    : `$${price}`;
+const TourCard = ({
+  id,
+  image,
+  title,
+  rating,
+  reviews,
+  price,
+}: TourCardProps) => {
+  const { currency, language } = useTours();
+  const navigate = useNavigate();
+  const formattedPrice =
+    currency === "VND" ? `${(price * 23000).toLocaleString()}₫` : `$${price}`;
+
+  const handleClick = () => {
+    navigate(`/tours/${id}`);
+  };
 
   return (
-    <Card className="group overflow-hidden border-border hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
+    <Card
+      className="group overflow-hidden border-border hover:shadow-hover transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="relative h-52 overflow-hidden">
         <img
           src={image}
@@ -45,17 +61,18 @@ const TourCard = ({ image, title, rating, reviews, price }: TourCardProps) => {
             ))}
           </div>
           <span className="text-sm text-muted-foreground">
-            {rating} ({reviews} reviews)
+            {rating} ({reviews} {t(language, "td_reviews")})
           </span>
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-2xl font-bold text-primary">{formattedPrice}</span>
-            <span className="text-sm text-muted-foreground ml-1">/ person</span>
+            <span className="text-2xl font-bold text-primary">
+              {formattedPrice}
+            </span>
+            <span className="text-sm text-muted-foreground ml-1">
+              {t(language, "td_per_person")}
+            </span>
           </div>
-          <Button size="sm" variant="default">
-            View Details
-          </Button>
         </div>
       </div>
     </Card>

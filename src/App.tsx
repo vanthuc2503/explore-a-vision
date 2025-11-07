@@ -7,6 +7,7 @@ import { TourProvider } from "@/contexts/TourContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import AllTours from "./pages/AllTours";
+import TourDetail from "./pages/TourDetail";
 import ImageEditor from "./pages/ImageEditor";
 import NotFound from "./pages/NotFound";
 import Blogs from "./pages/Blogs";
@@ -29,6 +30,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/tours" element={<AllTours />} />
+              <Route path="/tours/:id" element={<TourDetail />} />
               <Route path="/editor" element={<ImageEditor />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blogs/:slug" element={<BlogDetail />} />

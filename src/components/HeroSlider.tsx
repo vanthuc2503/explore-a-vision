@@ -3,27 +3,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import vanMieu from "@/assets/van-mieu.jpg";
 import hoChiMinhMuseum from "@/assets/hoang-thanh-thang-long.jpg";
 import nationalMilitiaMuseum from "@/assets/hochiminh-museum.jpeg";
+import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
 
 const slides = [
   {
     image: vanMieu,
     title: "Van Mieu - Quoc Tu Giam",
-    subtitle: "Discover the ancient temples and history of Vietnam",
+    subtitleKey: "hero_slide_0_subtitle" as const,
   },
   {
     image: hoChiMinhMuseum,
     title: "Hoang Thanh Thang Long",
-    subtitle: "Explore the ancient temples and history of Vietnam",
+    subtitleKey: "hero_slide_1_subtitle" as const,
   },
   {
     image: nationalMilitiaMuseum,
     title: "National Military Museum",
-    subtitle: "Explore the history and culture of Vietnam",
+    subtitleKey: "hero_slide_2_subtitle" as const,
   },
 ];
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { language } = useTours();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -41,7 +44,7 @@ const HeroSlider = () => {
   };
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-2xl shadow-hover">
+    <div className="group relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-2xl shadow-hover">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -55,13 +58,13 @@ const HeroSlider = () => {
             alt={slide.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
-            <h2 className="text-4xl md:text-6xl font-bold mb-3 animate-fade-in">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <h2 className="text-4xl md:text-6xl font-bold mb-3">
               {slide.title}
             </h2>
-            <p className="text-lg md:text-xl text-white/90 animate-fade-in">
-              {slide.subtitle}
+            <p className="text-lg md:text-xl text-white/90">
+              {t(language, slide.subtitleKey)}
             </p>
           </div>
         </div>
@@ -70,19 +73,19 @@ const HeroSlider = () => {
       {/* Navigation Buttons */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 duration-300"
       >
         <ChevronLeft className="w-6 h-6 text-white" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 duration-300"
       >
         <ChevronRight className="w-6 h-6 text-white" />
       </button>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         {slides.map((_, index) => (
           <button
             key={index}
