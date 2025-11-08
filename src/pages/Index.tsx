@@ -6,6 +6,9 @@ import {
   Headphones,
   MapPin,
   Calendar as CalendarIcon,
+  CalendarDays,
+  Users,
+  Landmark,
 } from "lucide-react";
 import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +18,7 @@ import HeroSlider from "@/components/HeroSlider";
 import TourCard from "@/components/TourCard";
 import LandmarkCard from "@/components/LandmarkCard";
 import ContactForm from "@/components/ContactForm";
+import PhotoFrameBanner from "@/components/PhotoFrameBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
@@ -29,9 +33,6 @@ import { hanoiBlogs } from "@/lib/blogs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import hochiminhMausoleum from "@/assets/lang-bac.jpg";
 import nhahatLon from "@/assets/nha-hat-lon.jpg";
-import hoHoanKiem from "@/assets/ho-hoan-kiem.jpg";
-import vanMieuOffer from "@/assets/van-mieu.jpg";
-import hoangThanh from "@/assets/hoang-thanh-thang-long.jpg";
 
 const Index = () => {
   const [heroSearch, setHeroSearch] = useState("");
@@ -70,26 +71,32 @@ const Index = () => {
       title: "Early Bird Special",
       description:
         "Book 30 days in advance and save up to 25% on selected tours",
-      image: hoHoanKiem,
       titleKey: "idx_offer_early_bird" as const,
       descKey: "idx_offer_early_bird_desc" as const,
+      gradient: "from-amber-400 via-orange-500 to-red-500",
+      icon: CalendarDays,
+      iconColor: "text-yellow-200",
     },
     {
       id: "weekend-getaway",
       title: "Weekend Getaway",
       description: "Perfect weekend tours with special discounts for groups",
-      image: vanMieuOffer,
       titleKey: "idx_offer_weekend" as const,
       descKey: "idx_offer_weekend_desc" as const,
+      gradient: "from-emerald-400 via-teal-500 to-cyan-600",
+      icon: Users,
+      iconColor: "text-emerald-200",
     },
     {
       id: "cultural-heritage",
       title: "Cultural Heritage",
       description:
         "Explore ancient temples and historical sites with exclusive offers",
-      image: hoangThanh,
       titleKey: "idx_offer_cultural" as const,
       descKey: "idx_offer_cultural_desc" as const,
+      gradient: "from-purple-500 via-pink-500 to-rose-500",
+      icon: Landmark,
+      iconColor: "text-purple-200",
     },
   ];
 
@@ -177,7 +184,7 @@ const Index = () => {
                         </span>
                       ) : (
                         <span className="text-muted-foreground font-semibold">
-                          Chọn ngày đi
+                          {t(language, "idx_select_date")}
                         </span>
                       )}
                     </Button>
@@ -223,41 +230,63 @@ const Index = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {offers.map((offer) => (
-              <div
-                key={offer.id}
-                className="group cursor-pointer"
-                onClick={() => navigate(`/tours?offer=${offer.id}`)}
-              >
-                <div className="relative h-64 rounded-xl overflow-hidden shadow-hover hover:shadow-xl transition-shadow">
-                  <img
-                    src={offer.image}
-                    alt={t(language, offer.titleKey)}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-xl font-bold mb-2">
-                      {t(language, offer.titleKey)}
-                    </h3>
-                    <p className="text-sm text-white/90 mb-4">
-                      {t(language, offer.descKey)}
-                    </p>
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="bg-white text-primary hover:bg-white/90 font-semibold"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/tours?offer=${offer.id}`);
-                      }}
-                    >
-                      {t(language, "idx_view_offer")}
-                    </Button>
+            {offers.map((offer) => {
+              const IconComponent = offer.icon;
+              return (
+                <div
+                  key={offer.id}
+                  className="group cursor-pointer"
+                  onClick={() => navigate(`/tours?offer=${offer.id}`)}
+                >
+                  <div
+                    className={`relative h-64 rounded-xl overflow-hidden bg-gradient-to-br ${offer.gradient} shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:scale-105`}
+                  >
+                    {/* Decorative Pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M20 20c0-5.5 4.5-10 10-10s10 4.5 10 10-4.5 10-10 10-10-4.5-10-10zm-20 0c0-5.5 4.5-10 10-10s10 4.5 10 10-4.5 10-10 10-10-4.5-10-10z'/%3E%3C/g%3E%3C/svg%3E")`,
+                        }}
+                      />
+                    </div>
+
+                    {/* Icon */}
+                    <div className="absolute top-4 right-4">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                        <IconComponent
+                          className={`w-8 h-8 ${offer.iconColor}`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:translate-x-1 transition-transform duration-300">
+                        {t(language, offer.titleKey)}
+                      </h3>
+                      <p className="text-sm text-white/95 mb-4 leading-relaxed">
+                        {t(language, offer.descKey)}
+                      </p>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="bg-white text-gray-800 hover:bg-white/95 font-semibold w-fit group-hover:scale-105 transition-transform duration-300"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/tours?offer=${offer.id}`);
+                        }}
+                      >
+                        {t(language, "idx_view_offer")}
+                      </Button>
+                    </div>
+
+                    {/* Shine Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -354,6 +383,9 @@ const Index = () => {
             ))}
           </div>
         </section>
+
+        {/* Photo Frame Banner */}
+        <PhotoFrameBanner />
 
         {/* Why Choose Joigo */}
         <section className="mb-16">

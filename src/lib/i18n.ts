@@ -6,6 +6,86 @@ const dictionary: Dictionary = {
   // Navbar
   nav_login: { EN: "Log In", VI: "Đăng nhập" },
   nav_signup: { EN: "Sign Up", VI: "Đăng ký" },
+  // Auth
+  auth_sign_up: { EN: "Sign Up", VI: "Đăng ký" },
+  auth_sign_in: { EN: "Sign In", VI: "Đăng nhập" },
+  auth_sign_up_with_google: {
+    EN: "Sign up with Google",
+    VI: "Đăng ký với Google",
+  },
+  auth_sign_in_with_google: {
+    EN: "Sign in with Google",
+    VI: "Đăng nhập với Google",
+  },
+  auth_full_name: { EN: "Full Name", VI: "Họ và tên" },
+  auth_email: { EN: "Email", VI: "Email" },
+  auth_password: { EN: "Password", VI: "Mật khẩu" },
+  auth_create_account: { EN: "Create Account", VI: "Tạo tài khoản" },
+  auth_processing: { EN: "Processing...", VI: "Đang xử lý..." },
+  auth_already_have_account: {
+    EN: "Already have an account?",
+    VI: "Đã có tài khoản?",
+  },
+  auth_no_account: { EN: "Don't have an account?", VI: "Chưa có tài khoản?" },
+  auth_forgot_password: { EN: "Forgot password?", VI: "Quên mật khẩu?" },
+  auth_signup_error: {
+    EN: "Sign up failed. Please try again.",
+    VI: "Đăng ký thất bại. Vui lòng thử lại.",
+  },
+  auth_login_error: {
+    EN: "Login failed. Please try again.",
+    VI: "Đăng nhập thất bại. Vui lòng thử lại.",
+  },
+  auth_google_signup_error: {
+    EN: "Google sign up failed. Please try again.",
+    VI: "Đăng ký Google thất bại. Vui lòng thử lại.",
+  },
+  auth_google_login_error: {
+    EN: "Google login failed. Please try again.",
+    VI: "Đăng nhập Google thất bại. Vui lòng thử lại.",
+  },
+  // Profile
+  profile_user_info: { EN: "User Information", VI: "Thông tin người dùng" },
+  profile_not_logged_in: {
+    EN: "You are not logged in",
+    VI: "Bạn chưa đăng nhập",
+  },
+  profile_full_name: { EN: "Full Name:", VI: "Họ và tên:" },
+  profile_email: { EN: "Email:", VI: "Email:" },
+  profile_gender: { EN: "Gender:", VI: "Giới tính:" },
+  profile_birthdate: { EN: "Birthdate:", VI: "Ngày sinh:" },
+  profile_city: { EN: "City of Residence:", VI: "Thành phố:" },
+  profile_mobile: { EN: "Mobile Number:", VI: "Số điện thoại:" },
+  profile_add_mobile: {
+    EN: "+ Add Mobile Number",
+    VI: "+ Thêm số điện thoại",
+  },
+  profile_edit: { EN: "Edit Profile", VI: "Chỉnh sửa hồ sơ" },
+  profile_save: { EN: "Save Changes", VI: "Lưu thay đổi" },
+  profile_cancel: { EN: "Cancel", VI: "Hủy" },
+  profile_select_gender: {
+    EN: "Select gender",
+    VI: "Chọn giới tính",
+  },
+  profile_male: { EN: "Male", VI: "Nam" },
+  profile_female: { EN: "Female", VI: "Nữ" },
+  profile_other: { EN: "Other", VI: "Khác" },
+  profile_select_birthdate: {
+    EN: "Select birthdate",
+    VI: "Chọn ngày sinh",
+  },
+  profile_select_city: {
+    EN: "Select city",
+    VI: "Chọn thành phố",
+  },
+  profile_update_success: {
+    EN: "Profile updated successfully",
+    VI: "Cập nhật hồ sơ thành công",
+  },
+  profile_update_error: {
+    EN: "Failed to update profile",
+    VI: "Cập nhật hồ sơ thất bại",
+  },
   nav_popular_searches: { EN: "Popular Searches", VI: "Tìm kiếm phổ biến" },
   nav_search_placeholder: {
     EN: "Search destinations, tours...",
@@ -77,6 +157,36 @@ const dictionary: Dictionary = {
   },
 
   // Footer
+  ft_about_joigo: { EN: "About Joigo", VI: "Về Joigo" },
+  ft_about_us: { EN: "About us", VI: "Về chúng tôi" },
+  ft_sustainable_tourism: {
+    EN: "Sustainable tourism",
+    VI: "Du lịch bền vững",
+  },
+  ft_voucher_joigo: { EN: "Voucher Joigo", VI: "Voucher Joigo" },
+  ft_help_center: { EN: "Help Center", VI: "Trung tâm trợ giúp" },
+  ft_how_to_book: { EN: "How to Book", VI: "Cách đặt tour" },
+  ft_partners: { EN: "Partners", VI: "Đối tác" },
+  ft_register_supplier: {
+    EN: "Register as Supplier",
+    VI: "Đăng ký nhà cung cấp",
+  },
+  ft_technology_partner: {
+    EN: "Technology Partners",
+    VI: "Đối tác công nghệ",
+  },
+  ft_affiliate_partner: {
+    EN: "Affiliate Partners",
+    VI: "Đối tác liên kết",
+  },
+  ft_agent_program: {
+    EN: "Agent Program",
+    VI: "Chương trình cho đại lý",
+  },
+  ft_partner_with_joigo: {
+    EN: "Partner with Joigo",
+    VI: "Hợp tác với Joigo",
+  },
   ft_contact_us: { EN: "Contact Us", VI: "Liên hệ" },
   ft_find_us: { EN: "Find Us", VI: "Tìm chúng tôi" },
   ft_we_accept: { EN: "We accept:", VI: "Chấp nhận:" },
@@ -93,7 +203,7 @@ const dictionary: Dictionary = {
     EN: "Promotions, deals and special offers for you",
     VI: "Khuyến mãi, ưu đãi và các chương trình đặc biệt dành cho bạn",
   },
-  idx_select_date: { EN: "Select departure date", VI: "Chọn ngày đi" },
+  idx_select_date: { EN: "Select date", VI: "Chọn ngày đi" },
   idx_view_offer: { EN: "View Offer", VI: "Xem ưu đãi" },
   idx_offer_early_bird: {
     EN: "Early Bird Special",
@@ -166,6 +276,50 @@ const dictionary: Dictionary = {
   td_transport: { EN: "Transportation", VI: "Phương tiện di chuyển" },
   td_tickets: { EN: "Entry tickets", VI: "Vé vào cửa" },
   td_support: { EN: "24/7 support", VI: "Hỗ trợ 24/7" },
+  td_see_all_photos: {
+    EN: "See all photos",
+    VI: "Xem tất cả ảnh",
+  },
+  td_all_photos: { EN: "All Photos", VI: "Tất cả ảnh" },
+  td_photo_of: { EN: "photo", VI: "ảnh" },
+  td_photos_of: { EN: "photos", VI: "ảnh" },
+  // Tour Titles
+  tour_title_1: {
+    EN: "Hoang Thanh Thang Long experience",
+    VI: "Trải nghiệm Hoàng thành Thăng Long",
+  },
+  tour_title_2: {
+    EN: "One Pillar Pagoda experience",
+    VI: "Trải nghiệm Chùa Một Cột",
+  },
+  tour_title_3: {
+    EN: "Chua Thay experience",
+    VI: "Trải nghiệm Chùa Thầy",
+  },
+  tour_title_4: {
+    EN: "Chua Tran Quoc experience",
+    VI: "Trải nghiệm Chùa Trấn Quốc",
+  },
+  tour_title_5: {
+    EN: "Ho Hoan Kiem experience",
+    VI: "Trải nghiệm Hồ Hoàn Kiếm",
+  },
+  tour_title_6: {
+    EN: "Thanh Co Loa experience",
+    VI: "Trải nghiệm Thành Cổ Loa",
+  },
+  tour_title_7: {
+    EN: "Angkor Wat Temple Complex Discovery",
+    VI: "Khám phá Quần thể Đền Angkor Wat",
+  },
+  tour_title_8: {
+    EN: "Van Mieu - Quoc Tu Giam experience",
+    VI: "Trải nghiệm Văn Miếu - Quốc Tử Giám",
+  },
+  tour_title_9: {
+    EN: "Nha San Bac Ho experience",
+    VI: "Trải nghiệm Nhà sàn Bác Hồ",
+  },
 
   // Index page additional
   idx_travel_blog: {
@@ -443,6 +597,92 @@ const dictionary: Dictionary = {
   contact_scan_qr: {
     EN: "Scan QR code to get consultation",
     VI: "Quét mã QR để nhận tư vấn",
+  },
+
+  // Photo Frame
+  photo_frame_banner_title: {
+    EN: "Create Beautiful Framed Photos",
+    VI: "Tạo Ảnh Có Khung Đẹp",
+  },
+  photo_frame_banner_desc: {
+    EN: "Upload your photos and choose from many beautiful frames. Create unique photos for your travel memories!",
+    VI: "Tải ảnh lên và chọn từ nhiều khung ảnh đẹp mắt. Tạo những bức ảnh độc đáo cho kỷ niệm du lịch của bạn!",
+  },
+  photo_frame_banner_cta: {
+    EN: "Explore Now",
+    VI: "Khám Phá Ngay",
+  },
+  photo_frame_title: {
+    EN: "Create Framed Photos",
+    VI: "Tạo Ảnh Có Khung",
+  },
+  photo_frame_subtitle: {
+    EN: "Upload your photo and choose a beautiful frame",
+    VI: "Tải ảnh lên và chọn khung đẹp cho ảnh của bạn",
+  },
+  photo_frame_upload: {
+    EN: "Upload Photo",
+    VI: "Tải ảnh lên",
+  },
+  photo_frame_upload_click: {
+    EN: "Click to upload image",
+    VI: "Click để tải ảnh lên",
+  },
+  photo_frame_select_frame: {
+    EN: "Select Frame",
+    VI: "Chọn khung ảnh",
+  },
+  photo_frame_apply: {
+    EN: "Apply Frame",
+    VI: "Áp dụng khung",
+  },
+  photo_frame_download: {
+    EN: "Download",
+    VI: "Tải xuống",
+  },
+  photo_frame_preview: {
+    EN: "Preview",
+    VI: "Xem trước",
+  },
+  photo_frame_preview_placeholder: {
+    EN: "Framed photo will appear here",
+    VI: "Ảnh có khung sẽ hiển thị ở đây",
+  },
+  photo_frame_success: {
+    EN: "Frame applied successfully!",
+    VI: "Đã áp dụng khung thành công!",
+  },
+  photo_frame_download_success: {
+    EN: "Photo downloaded successfully!",
+    VI: "Đã tải ảnh xuống thành công!",
+  },
+  photo_frame_download_error: {
+    EN: "Please select a photo and frame first!",
+    VI: "Vui lòng chọn ảnh và khung trước!",
+  },
+  photo_frame_frame_classic: {
+    EN: "Classic Frame",
+    VI: "Khung Cổ Điển",
+  },
+  photo_frame_frame_modern: {
+    EN: "Modern Frame",
+    VI: "Khung Hiện Đại",
+  },
+  photo_frame_frame_elegant: {
+    EN: "Elegant Frame",
+    VI: "Khung Thanh Lịch",
+  },
+  photo_frame_frame_minimal: {
+    EN: "Minimal Frame",
+    VI: "Khung Tối Giản",
+  },
+  photo_frame_frame_vintage: {
+    EN: "Vintage Frame",
+    VI: "Khung Cổ Kính",
+  },
+  photo_frame_frame_bold: {
+    EN: "Bold Frame",
+    VI: "Khung Nổi Bật",
   },
 };
 

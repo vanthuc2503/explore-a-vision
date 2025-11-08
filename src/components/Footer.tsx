@@ -15,7 +15,7 @@ const Footer = () => {
   return (
     <footer className="bg-secondary/50 border-t border-border mt-20">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -31,6 +31,84 @@ const Footer = () => {
             <p className="text-muted-foreground mb-4">
               {t(language, "ft_company_desc")}
             </p>
+          </div>
+
+          {/* About Joigo */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">
+              {t(language, "ft_about_joigo")}
+            </h3>
+            <div className="space-y-3">
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_about_us")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_sustainable_tourism")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_voucher_joigo")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_help_center")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_how_to_book")}
+              </a>
+            </div>
+          </div>
+
+          {/* Partners */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">
+              {t(language, "ft_partners")}
+            </h3>
+            <div className="space-y-3">
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_register_supplier")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_technology_partner")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_affiliate_partner")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_agent_program")}
+              </a>
+              <a
+                href="#"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t(language, "ft_partner_with_joigo")}
+              </a>
+            </div>
           </div>
 
           {/* Contact Information */}

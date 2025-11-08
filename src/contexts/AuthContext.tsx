@@ -5,12 +5,17 @@ export type AuthUser = {
   name: string;
   email: string;
   avatarUrl?: string;
+  gender?: "male" | "female" | "other";
+  birthdate?: string; // ISO date string
+  city?: string;
+  mobileNumber?: string;
 };
 
 type AuthContextValue = {
   user: AuthUser | null;
   login: (user: AuthUser) => void;
   logout: () => void;
+  updateUser: (updates: Partial<AuthUser>) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -37,11 +42,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     else localStorage.removeItem(STORAGE_KEY);
   }, [user]);
 
+  const updateUser = (updates: Partial<AuthUser>) => {
+    setUser((prevUser) => {
+      if (prevUser) {
+        return { ...prevUser, ...updates };
+      }
+      return prevUser;
+    });
+  };
+
   const value = useMemo(
     () => ({
       user,
       login: (u: AuthUser) => setUser(u),
       logout: () => setUser(null),
+      updateUser,
     }),
     [user]
   );

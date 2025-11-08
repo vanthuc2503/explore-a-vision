@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import AllTours from "./pages/AllTours";
 import TourDetail from "./pages/TourDetail";
 import ImageEditor from "./pages/ImageEditor";
+import PhotoFrame from "./pages/PhotoFrame";
 import NotFound from "./pages/NotFound";
 import Blogs from "./pages/Blogs";
 import BlogDetail from "./pages/BlogDetail";
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/tours" element={<AllTours />} />
               <Route path="/tours/:id" element={<TourDetail />} />
               <Route path="/editor" element={<ImageEditor />} />
+              <Route path="/photo-frame" element={<PhotoFrame />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blogs/:slug" element={<BlogDetail />} />
               <Route path="/login" element={<Login />} />

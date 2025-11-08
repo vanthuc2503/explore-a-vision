@@ -1,4 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 import {
   ChevronLeft,
   Star,
@@ -6,6 +7,7 @@ import {
   Calendar,
   Users,
   ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -13,13 +15,46 @@ import { useTours } from "@/contexts/TourContext";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const TourDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { tours, currency, language } = useTours();
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isAllPhotosOpen, setIsAllPhotosOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const tour = tours.find((t) => t.id === id);
+
+  // Get images array, fallback to single image if images array doesn't exist
+  const tourImages = tour?.images || (tour?.image ? [tour.image] : []);
+  const hasMultipleImages = tourImages.length > 1;
+
+  // Get thumbnails (show 4 thumbnails, excluding the currently selected one)
+  // If selectedImageIndex is 0, show images 1-4
+  // Otherwise, show images around the selected one
+  const getThumbnails = () => {
+    if (tourImages.length <= 1) return [];
+    if (selectedImageIndex === 0) {
+      return tourImages.slice(1, 5).map((img, idx) => ({
+        img,
+        index: idx + 1,
+      }));
+    }
+    // Show 4 thumbnails that don't include the selected one
+    const otherImages = tourImages
+      .map((img, idx) => ({ img, index: idx }))
+      .filter((_, idx) => idx !== selectedImageIndex)
+      .slice(0, 4);
+    return otherImages;
+  };
+  const thumbnails = getThumbnails();
 
   if (!tour) {
     return (
@@ -48,6 +83,10 @@ const TourDetail = () => {
       ? `${(tour.price * 23000).toLocaleString()}₫`
       : `$${tour.price}`;
 
+  const displayTitle = tour.titleKey
+    ? t(language, tour.titleKey as any)
+    : tour.title;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -63,25 +102,79 @@ const TourDetail = () => {
           </Link>
           <ChevronLeft className="w-4 h-4 rotate-180" />
           <span className="text-foreground font-medium line-clamp-1">
-            {tour.title}
+            {displayTitle}
           </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Image */}
-            <div className="rounded-xl overflow-hidden shadow-hover mb-6">
-              <img
-                src={tour.image}
-                alt={tour.title}
-                className="w-full h-[500px] object-cover"
-              />
+            {/* Image Gallery */}
+            <div className="mb-6">
+              {/* Main Image */}
+              <div className="relative rounded-xl overflow-hidden shadow-hover mb-4 group">
+                {hasMultipleImages ? (
+                  <button
+                    onClick={() => {
+                      setCurrentPhotoIndex(selectedImageIndex);
+                      setIsAllPhotosOpen(true);
+                    }}
+                    className="w-full h-[500px] relative block cursor-pointer"
+                  >
+                    <img
+                      src={tourImages[selectedImageIndex]}
+                      alt={displayTitle}
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                    />
+                    <div className="absolute bottom-4 right-4 bg-black/70 hover:bg-black/90 text-white px-4 py-2 rounded-lg font-medium transition-all backdrop-blur-sm">
+                      {t(language, "td_see_all_photos")} ({tourImages.length})
+                    </div>
+                  </button>
+                ) : (
+                  <div className="w-full h-[500px] relative">
+                    <img
+                      src={tourImages[selectedImageIndex]}
+                      alt={displayTitle}
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnails */}
+              {hasMultipleImages && thumbnails.length > 0 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {thumbnails.map((thumbnail, index) => {
+                    const actualIndex = thumbnail.index;
+                    const isSelected = selectedImageIndex === actualIndex;
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImageIndex(actualIndex)}
+                        className={`relative rounded-lg overflow-hidden border-2 transition-all ${
+                          isSelected
+                            ? "border-primary shadow-lg"
+                            : "border-transparent hover:border-primary/50"
+                        }`}
+                      >
+                        <img
+                          src={thumbnail.img}
+                          alt={`${displayTitle} ${actualIndex + 1}`}
+                          className="w-full h-24 object-cover"
+                        />
+                        {isSelected && (
+                          <div className="absolute inset-0 bg-primary/20" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Title & Rating */}
             <div className="mb-6">
-              <h1 className="text-4xl font-bold mb-4">{tour.title}</h1>
+              <h1 className="text-4xl font-bold mb-4">{displayTitle}</h1>
               <div className="flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
                   <div className="flex">
@@ -221,6 +314,94 @@ const TourDetail = () => {
         </div>
       </main>
       <Footer />
+
+      {/* All Photos Modal */}
+      <Dialog open={isAllPhotosOpen} onOpenChange={setIsAllPhotosOpen}>
+        <DialogContent className="max-w-7xl w-full h-[90vh] p-0">
+          <DialogHeader className="px-6 pt-6 pb-4">
+            <DialogTitle>
+              {t(language, "td_all_photos")} ({tourImages.length}{" "}
+              {tourImages.length === 1
+                ? t(language, "td_photo_of")
+                : t(language, "td_photos_of")}
+              )
+            </DialogTitle>
+          </DialogHeader>
+          <div className="relative flex-1 px-6 pb-6">
+            {/* Main Photo Display */}
+            <div className="relative w-full h-[calc(90vh-200px)] mb-4 rounded-lg overflow-hidden bg-background">
+              <img
+                src={tourImages[currentPhotoIndex]}
+                alt={`${displayTitle} ${currentPhotoIndex + 1}`}
+                className="w-full h-full object-contain"
+              />
+
+              {/* Navigation Buttons */}
+              {tourImages.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setCurrentPhotoIndex(
+                        currentPhotoIndex === 0
+                          ? tourImages.length - 1
+                          : currentPhotoIndex - 1
+                      )
+                    }
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all backdrop-blur-sm"
+                    aria-label="Previous photo"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setCurrentPhotoIndex(
+                        currentPhotoIndex === tourImages.length - 1
+                          ? 0
+                          : currentPhotoIndex + 1
+                      )
+                    }
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all backdrop-blur-sm"
+                    aria-label="Next photo"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
+
+              {/* Photo Counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full backdrop-blur-sm">
+                {currentPhotoIndex + 1} / {tourImages.length}
+              </div>
+            </div>
+
+            {/* Thumbnail Grid */}
+            {tourImages.length > 1 && (
+              <div className="grid grid-cols-6 gap-2 max-h-32 overflow-y-auto">
+                {tourImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPhotoIndex(index)}
+                    className={`relative rounded-lg overflow-hidden border-2 transition-all ${
+                      currentPhotoIndex === index
+                        ? "border-primary shadow-lg"
+                        : "border-transparent hover:border-primary/50"
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`${displayTitle} ${index + 1}`}
+                      className="w-full h-20 object-cover"
+                    />
+                    {currentPhotoIndex === index && (
+                      <div className="absolute inset-0 bg-primary/20" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

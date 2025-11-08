@@ -8,6 +8,7 @@ interface TourCardProps {
   id: string;
   image: string;
   title: string;
+  titleKey?: string;
   rating: number;
   reviews: number;
   price: number;
@@ -17,6 +18,7 @@ const TourCard = ({
   id,
   image,
   title,
+  titleKey,
   rating,
   reviews,
   price,
@@ -25,6 +27,8 @@ const TourCard = ({
   const navigate = useNavigate();
   const formattedPrice =
     currency === "VND" ? `${(price * 23000).toLocaleString()}₫` : `$${price}`;
+
+  const displayTitle = titleKey ? t(language, titleKey as any) : title;
 
   const handleClick = () => {
     navigate(`/tours/${id}`);
@@ -38,14 +42,14 @@ const TourCard = ({
       <div className="relative h-52 overflow-hidden">
         <img
           src={image}
-          alt={title}
+          alt={displayTitle}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
       <div className="p-5">
         <h3 className="font-semibold text-lg mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-          {title}
+          {displayTitle}
         </h3>
         <div className="flex items-center gap-2 mb-4">
           <div className="flex">

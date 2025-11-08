@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTours } from "@/contexts/TourContext";
+import { t } from "@/lib/i18n";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
+  const { language } = useTours();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +28,8 @@ const Login = () => {
       await new Promise((r) => setTimeout(r, 600));
       login({
         id: "demo-user",
-        name: email.split("@")[0] || "Người dùng",
+        name:
+          email.split("@")[0] || (language === "VI" ? "Người dùng" : "User"),
         email,
         avatarUrl:
           "https://api.dicebear.com/7.x/initials/svg?seed=" +
@@ -33,7 +37,7 @@ const Login = () => {
       });
       navigate("/");
     } catch (err) {
-      setError("Đăng nhập thất bại. Vui lòng thử lại.");
+      setError(t(language, "auth_login_error"));
     } finally {
       setLoading(false);
     }
@@ -53,7 +57,7 @@ const Login = () => {
       });
       navigate("/");
     } catch (err) {
-      setError("Đăng nhập Google thất bại. Vui lòng thử lại.");
+      setError(t(language, "auth_google_login_error"));
     } finally {
       setLoading(false);
     }
@@ -66,13 +70,15 @@ const Login = () => {
         <div className="max-w-md mx-auto">
           <Card className="shadow-soft">
             <CardHeader>
-              <CardTitle className="text-2xl">Đăng nhập</CardTitle>
+              <CardTitle className="text-2xl">
+                {t(language, "auth_sign_in")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form className="space-y-4" onSubmit={onSubmit}>
                 <div>
                   <label className="text-sm font-medium mb-1 block">
-                    Email
+                    {t(language, "auth_email")}
                   </label>
                   <Input
                     type="email"
@@ -84,7 +90,7 @@ const Login = () => {
                 </div>
                 <div>
                   <label className="text-sm font-medium mb-1 block">
-                    Mật khẩu
+                    {t(language, "auth_password")}
                   </label>
                   <Input
                     type="password"
@@ -96,7 +102,9 @@ const Login = () => {
                 </div>
                 {error && <p className="text-sm text-destructive">{error}</p>}
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Đang xử lý..." : "Đăng nhập"}
+                  {loading
+                    ? t(language, "auth_processing")
+                    : t(language, "auth_sign_in")}
                 </Button>
               </form>
 
@@ -111,7 +119,7 @@ const Login = () => {
                 onClick={onGoogleLogin}
                 disabled={loading}
               >
-                Đăng nhập với Google
+                {t(language, "auth_sign_in_with_google")}
               </Button>
 
               <div className="flex items-center justify-between mt-6 text-sm">
@@ -119,12 +127,12 @@ const Login = () => {
                   to="/forgot-password"
                   className="text-primary hover:underline"
                 >
-                  Quên mật khẩu?
+                  {t(language, "auth_forgot_password")}
                 </Link>
                 <div>
-                  Chưa có tài khoản?{" "}
+                  {t(language, "auth_no_account")}{" "}
                   <Link to="/signup" className="text-primary hover:underline">
-                    Đăng ký
+                    {t(language, "auth_sign_up")}
                   </Link>
                 </div>
               </div>
