@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -65,15 +70,15 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       backgroundImage: {
-        'ocean-gradient': 'var(--ocean-gradient)',
-        'sunset-gradient': 'var(--sunset-gradient)',
+        "ocean-gradient": "var(--ocean-gradient)",
+        "sunset-gradient": "var(--sunset-gradient)",
       },
       boxShadow: {
-        'soft': 'var(--shadow-soft)',
-        'hover': 'var(--shadow-hover)',
+        soft: "var(--shadow-soft)",
+        hover: "var(--shadow-hover)",
       },
       transitionProperty: {
-        'smooth': 'var(--transition-smooth)',
+        smooth: "var(--transition-smooth)",
       },
       keyframes: {
         "accordion-down": {
@@ -110,12 +115,67 @@ export default {
             transform: "translateX(0)",
           },
         },
+        "fade-in-up": {
+          from: {
+            opacity: "0",
+            transform: "translateY(40px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "fade-in-down": {
+          from: {
+            opacity: "0",
+            transform: "translateY(-40px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "fade-in-left": {
+          from: {
+            opacity: "0",
+            transform: "translateX(-40px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "fade-in-right": {
+          from: {
+            opacity: "0",
+            transform: "translateX(40px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "fade-in-scale": {
+          from: {
+            opacity: "0",
+            transform: "scale(0.95)",
+          },
+          to: {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
+        "fade-in-up": "fade-in-up 0.7s ease-out",
+        "fade-in-down": "fade-in-down 0.7s ease-out",
+        "fade-in-left": "fade-in-left 0.7s ease-out",
+        "fade-in-right": "fade-in-right 0.7s ease-out",
+        "fade-in-scale": "fade-in-scale 0.7s ease-out",
       },
     },
   },

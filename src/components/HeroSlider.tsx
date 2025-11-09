@@ -44,7 +44,7 @@ const HeroSlider = () => {
   };
 
   return (
-    <div className="group relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-2xl shadow-hover">
+    <div className="group relative w-full h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
